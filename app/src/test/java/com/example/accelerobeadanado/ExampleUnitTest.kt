@@ -1,4 +1,4 @@
-package com.example.gyroscopebeadanado
+package com.example.accelerobeadanado
 
 import org.junit.Test
 
