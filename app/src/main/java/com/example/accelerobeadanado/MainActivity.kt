@@ -1,23 +1,31 @@
 package com.example.accelerobeadanado
 
+import android.content.res.Configuration
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.os.Build
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.view.Display
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity(),SensorEventListener {
-   private lateinit var mycanvas: MyCanvas
-   private lateinit var sensorManager: SensorManager
-   private lateinit var sensor: Sensor
-   private lateinit var textView: TextView
-   var data = FloatArray(3)
+    private lateinit var mycanvas: MyCanvas
+    private lateinit var sensorManager: SensorManager
+    private lateinit var sensorAcc: Sensor
+    private lateinit var sensorLight: Sensor
+    private lateinit var textView: TextView
+    private lateinit var textView2: TextView
+    var data = FloatArray(3)
 
 
 
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -25,34 +33,52 @@ class MainActivity : AppCompatActivity(),SensorEventListener {
         setContentView(R.layout.activity_main)
         mycanvas=findViewById(R.id.draw_field)
         textView=findViewById(R.id.textView)
-
+        textView2=findViewById(R.id.textView2)
+        //val height = display!!.height
+        //val width = display!!.width
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
 
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
+        sensorAcc = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        sensorLight = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
 
-        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+        mycanvas.movex= (display!!.width)/2f
+        mycanvas.movey= (display!!.height)/2f
+        println((display!!.width))
+        //sensorManagerAcc.registerListener(this, sensorAcc, SensorManager.SENSOR_DELAY_FASTEST)
+        //sensorManagerLight.registerListener(this, sensorLight, SensorManager.SENSOR_STATUS_ACCURACY_LOW)
 
     }
 
     override fun onResume() {
         super.onResume()
-        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+        sensorManager.registerListener(this, sensorAcc, SensorManager.SENSOR_DELAY_FASTEST)
+        sensorManager.registerListener(this, sensorLight, SensorManager.SENSOR_DELAY_FASTEST)
+
     }
 
     override fun onPause() {
         super.onPause()
-        sensorManager.unregisterListener(this, sensor)
+        sensorManager.unregisterListener(this, sensorAcc)
+        sensorManager.unregisterListener(this, sensorLight)
     }
     override fun onSensorChanged(p0: SensorEvent?) {
         if (p0?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
             if (p0?.values != null) {
-                mycanvas.data = p0.values
+                mycanvas.dataAcc = p0.values
                 textView.text ="x: "+p0.values[0].toString()+"\n"+"y: "+p0.values[1].toString()+"\n"+"z: "+p0.values[2].toString()
 
-                mycanvas.invalidate()
+
             }
         }
+        if (p0?.sensor?.type== Sensor.TYPE_LIGHT) {
+            if (p0?.values != null) {
+                mycanvas.dataLight=p0.values[0]
+                textView2.text=p0.values[0].toString()
+
+            }
+        }
+        mycanvas.invalidate()
     }
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {

@@ -11,7 +11,7 @@
         android:theme="@style/Theme.GyroscopeBeadanado">
         <activity
             android:name="com.example.accelerobeadanado.MainActivity"
-
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
