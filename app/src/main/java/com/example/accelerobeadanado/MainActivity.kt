@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(),SensorEventListener {
 
         mycanvas.movex= (display!!.width)/2f
         mycanvas.movey= (display!!.height)/2f
-        println((display!!.width))
+
         //sensorManagerAcc.registerListener(this, sensorAcc, SensorManager.SENSOR_DELAY_FASTEST)
         //sensorManagerLight.registerListener(this, sensorLight, SensorManager.SENSOR_STATUS_ACCURACY_LOW)
 
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(),SensorEventListener {
     }
     override fun onSensorChanged(p0: SensorEvent?) {
         if (p0?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
-            if (p0?.values != null) {
+            if (p0.values != null) {
                 mycanvas.dataAcc = p0.values
                 textView.text ="x: "+p0.values[0].toString()+"\n"+"y: "+p0.values[1].toString()+"\n"+"z: "+p0.values[2].toString()
 
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity(),SensorEventListener {
             }
         }
         if (p0?.sensor?.type== Sensor.TYPE_LIGHT) {
-            if (p0?.values != null) {
+            if (p0.values != null) {
                 mycanvas.dataLight=p0.values[0]
                 textView2.text=p0.values[0].toString()
 
