@@ -5,11 +5,11 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.accelerobeadanado.MainActivity">
+    tools:context="com.example.movingball.MainActivity">
 
     <view
         android:id="@+id/draw_field"
-        class="com.example.accelerobeadanado.MyCanvas"
+        class="com.example.movingball.MyCanvas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,4 +1,4 @@
-package com.example.accelerobeadanado
+package com.example.movingball
 
 import android.hardware.Sensor
 import android.hardware.SensorEvent
